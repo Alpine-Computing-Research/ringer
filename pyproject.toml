@@ -1,0 +1,16 @@
+[project]
+name = "ringer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "awscli>=1.45.11",
+    "boto3>=1.43.11",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "ruff>=0.9",
+    "pyright>=1.1",
+]
