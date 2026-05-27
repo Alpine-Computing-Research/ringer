@@ -347,6 +347,10 @@ def collect_results(
                 region = data.get("region", key)
                 if "error" in data:
                     print(f"[{region}] probe error: {data['error']}")
+                elif "first_msg_p50" in data:
+                    print(
+                        f"[{region}] p50={data['p50']:.2f}ms  msg_p50={data['first_msg_p50']:.2f}ms  msg_p99={data['first_msg_p99']:.2f}ms"
+                    )
                 else:
                     print(f"[{region}] p50={data['p50']:.2f}ms")
             except ClientError as e:
@@ -375,15 +379,18 @@ def print_results(results: list[dict]) -> None:
 
     if has_first_msg:
         print(
-            f"\n{'Region':<25} {'hs_min':>8} {'hs_p50':>8} {'hs_p99':>8} {'msg_p50':>8}  samples"
+            f"\n{'Region':<25} {'hs_min':>8} {'hs_p50':>8} {'hs_p99':>8} {'msg_p50':>8} {'msg_p99':>8}  samples"
         )
-        print("-" * 75)
+        print("-" * 85)
         for r in sorted(successful, key=lambda x: x.get("first_msg_p50", x["p50"])):
-            msg = (
+            msg_p50 = (
                 f"{r['first_msg_p50']:>7.2f}ms" if "first_msg_p50" in r else "       —"
             )
+            msg_p99 = (
+                f"{r['first_msg_p99']:>7.2f}ms" if "first_msg_p99" in r else "       —"
+            )
             print(
-                f"{r['region']:<25} {r['min']:>7.2f}ms {r['p50']:>7.2f}ms {r['p99']:>7.2f}ms {msg}  {r['samples']}"
+                f"{r['region']:<25} {r['min']:>7.2f}ms {r['p50']:>7.2f}ms {r['p99']:>7.2f}ms {msg_p50} {msg_p99}  {r['samples']}"
             )
         winner = min(successful, key=lambda x: x.get("first_msg_p50", x["p50"]))
         metric = (
