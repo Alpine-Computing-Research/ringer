@@ -2,6 +2,8 @@
 
 Basic latency ringer that connects via Websockets to different exchanges and collects latency statistics.
 
+For a motivating example, [read this](https://jmcph4.dev/posts/minimising-exchange-latency-in-the-cloud.html).
+
 ## Usage ##
 
 ```
